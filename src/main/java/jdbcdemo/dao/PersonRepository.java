@@ -27,11 +27,11 @@ public class PersonRepository {
 	private String deleteSql = "DELETE FROM person WHERE id=?";
 	private String selectAllSql = "SELECT * FROM person";
 	
-	Statement createTable;
-	PreparedStatement insert;
-	PreparedStatement selectAll;
-	PreparedStatement update;
-	PreparedStatement delete;
+	private Statement createTable;
+	private PreparedStatement insert;
+	private PreparedStatement selectAll;
+	private PreparedStatement update;
+	private PreparedStatement delete;
 	
 	public PersonRepository(){
 		

@@ -26,11 +26,11 @@ Connection connection;
 	private String deleteSql = "DELETE FROM cars WHERE id=?";
 	private String selectAllSql = "SELECT * FROM cars";
 	
-	Statement createTable;
-	PreparedStatement insert;
-	PreparedStatement selectAll;
-	PreparedStatement update;
-	PreparedStatement delete;
+	private Statement createTable;
+	private PreparedStatement insert;
+	private PreparedStatement selectAll;
+	private PreparedStatement update;
+	private PreparedStatement delete;
 	
 	public CarRepository(){
 		
