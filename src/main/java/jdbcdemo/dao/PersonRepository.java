@@ -23,19 +23,23 @@ public class PersonRepository {
 			+ ")";
 	
 	private String insertSql = "INSERT INTO person(name,surname,age) VALUES (?,?,?)";
-	
+	private String updateSql = "UPDATE person SET (name, surname, age) = (?,?,?) WHERE id=?";
+	private String deleteSql = "DELETE FROM person WHERE id=?";
 	private String selectAllSql = "SELECT * FROM person";
 	
 	Statement createTable;
 	PreparedStatement insert;
 	PreparedStatement selectAll;
-	
+	PreparedStatement update;
+	PreparedStatement delete;
 	public PersonRepository(){
 		
 		try {
 			connection = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/workdb");
 			createTable = connection.createStatement();
 			insert = connection.prepareStatement(insertSql);
+			update = connection.prepareStatement(updateSql);
+			delete = connection.prepareStatement(deleteSql);
 			selectAll = connection.prepareStatement(selectAllSql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -68,6 +72,29 @@ public class PersonRepository {
 			insert.setString(2, person.getSurname());
 			insert.setInt(3, person.getAge());
 			insert.executeUpdate();
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	public void update(Person person) {
+
+		try{
+			update.setString(1, person.getName());
+			update.setString(2, person.getSurname());
+			update.setInt(3, person.getAge());
+			update.setInt(4, person.getId());
+			update.executeUpdate();
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	public void delete(Person person) {
+
+		try{
+			delete.setInt(1, person.getId());
+			delete.executeUpdate();
 		}catch(SQLException ex){
 			ex.printStackTrace();
 		}
