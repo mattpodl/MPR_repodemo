@@ -1,12 +1,12 @@
 package jdbcdemo.domain;
 
-public class Person {
+public class Person implements IHaveId{
 
 	private int id;
 	private String name;
 	private String surname;
 	private int age;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -31,6 +31,7 @@ public class Person {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
-	
+
+
+
 }

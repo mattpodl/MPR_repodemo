@@ -1,11 +1,11 @@
 package jdbcdemo.domain;
 
-public class Car {
+public class Car implements IHaveId{
 
 	private int id;
 	private String brand;
 	private String registration;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -24,5 +24,5 @@ public class Car {
 	public void setRegistration(String registration) {
 		this.registration = registration;
 	}
-	
+
 }
