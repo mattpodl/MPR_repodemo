@@ -1,93 +1,37 @@
 package jdbcdemo.dao;
 
-import java.sql.ResultSet;
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
+import jdbcdemo.dao.mappers.ResultSetMapper;
 import jdbcdemo.domain.Car;
-import jdbcdemo.domain.Person;
+
 
 public class CarRepository extends RepositoryBase<Car>{
 
-	public CarRepository(){
 
-		super();
+	public CarRepository(Connection connection, ResultSetMapper<Car> mapper) throws SQLException{
+
+		super(connection, mapper);
 	}
-
-	public List<Car> getAll(){
-		List<Car> result = new ArrayList<Car>();
-		try {
-			ResultSet rs = selectAll.executeQuery();
-			while(rs.next()){
-				Car c = new Car();
-				c.setId(rs.getInt("id"));
-				c.setBrand(rs.getString("brand"));
-				c.setRegistration(rs.getString("registration"));
-				result.add(c);
-			}
-
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	public void add(Car car){
-		try{
-			insert.setString(1, car.getBrand());
-			insert.setString(2, car.getRegistration());
-			insert.executeUpdate();
-		}catch(SQLException ex){
-			ex.printStackTrace();
-		}
-	}
-
-	public void update(Car car) {
-
-		try{
-			update.setString(1, car.getBrand());
-			update.setString(2, car.getRegistration());
-			update.setInt(3, car.getId());
-			update.executeUpdate();
-		}catch(SQLException ex){
-			ex.printStackTrace();
-		}
-	}
-
-	public void delete(Person person) {
-
-		try{
-			delete.setInt(1, person.getId());
-			delete.executeUpdate();
-		}catch(SQLException ex){
-			ex.printStackTrace();
-		}
-	}
-
 
 	@Override
 	protected String insertSql() {
-		// TODO Auto-generated method stub
 		return "INSERT INTO cars(brand,registration) VALUES (?,?)";
 	}
 
 	@Override
 	protected String updateSql() {
-		// TODO Auto-generated method stub
 		return "UPDATE cars SET (brand, registration) = (?,?) WHERE id=?";
 	}
 
 	@Override
 	protected String deleteSql() {
-		// TODO Auto-generated method stub
 		return "DELETE FROM cars WHERE id=?";
 	}
 
 	@Override
 	protected String selectAllSql() {
-		// TODO Auto-generated method stub
 		return "SELECT * FROM cars";
 	}
 
@@ -103,5 +47,21 @@ public class CarRepository extends RepositoryBase<Car>{
 				+ "brand VARCHAR(20),"
 				+ "registration VARCHAR(10)"
 				+ ")";
+	}
+
+
+	@Override
+	protected void completeInsert(Car car) throws SQLException {
+		insert.setString(1, car.getBrand());
+		insert.setString(2, car.getRegistration());
+
+	}
+
+
+	@Override
+	protected void completeUpdate(Car car) throws SQLException {
+		update.setString(1, car.getBrand());
+		update.setString(2, car.getRegistration());
+		update.setInt(3, car.getId());
 	}
 }
